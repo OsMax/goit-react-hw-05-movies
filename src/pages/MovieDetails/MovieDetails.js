@@ -1,15 +1,26 @@
-import { Link, Outlet, useParams } from 'react-router-dom';
-import API from 'components/GetApi/GetApi';
+import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import API from 'components/GetApi/GetApi';
+import Loader from 'components/Loader/Loader';
 
 const MoviesDetails = () => {
   const [movie, setMovie] = useState(null);
+  const [loading, setLoading] = useState(false);
   const { movieId } = useParams();
+  const location = useLocation();
+  console.log(location);
   useEffect(() => {
-    API.getMoviesDetail(movieId).then(result => setMovie(result.data));
+    setLoading(true);
+    API.getMoviesDetail(movieId).then(result => {
+      setMovie(result.data);
+      setLoading(false);
+    });
   }, [movieId]);
+
   return (
     <>
+      <Link to={location.state?.from ?? '/movies'}> Go back</Link>
+      {loading && <Loader />}
       {movie && (
         <div>
           <h2>{`${movie.title} (${new Date(
@@ -39,7 +50,6 @@ const MoviesDetails = () => {
           <Link to="review">Review</Link>
         </li>
       </ul>
-
       <Outlet />
     </>
   );

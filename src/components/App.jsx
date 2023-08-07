@@ -9,22 +9,6 @@ import Cast from './Cast/Cast';
 import Review from './Reviews/Reviews';
 
 export const App = () => {
-  // API.searchMovies('batman').then(elem => {
-  //   console.log('search');
-  //   console.log(elem);
-  // });
-  // API.getMoviesDetail(268).then(elem => {
-  //   console.log('Details');
-  //   console.log(elem);
-  // });
-  // API.getMoviesCredits(268).then(elem => {
-  //   console.log('Credits');
-  //   console.log(elem);
-  // });
-  // API.getMoviesRevievs(268).then(elem => {
-  //   console.log('Rrvievs');
-  //   console.log(elem);
-  // });
   return (
     <Routes>
       <Route path="/" element={<Layout />}>

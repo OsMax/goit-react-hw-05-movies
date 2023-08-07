@@ -1,0 +1,17 @@
+.container {
+  background-color: #dde794;
+  min-width: 300px;
+  max-width: 1200px;
+  border: 2px solid #dde794;
+  border-radius: 20px;
+  box-shadow: 10px 5px 7px #8e945e;
+  margin: 50px auto 60px;
+  padding: 28px 0;
+}
+
+.title {
+  margin: 0;
+  margin-bottom: 20px;
+  text-align: center;
+  text-shadow: 1px 1px 2px #3d6b5c;
+}

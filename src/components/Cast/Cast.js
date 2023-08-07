@@ -1,15 +1,22 @@
 import { useEffect, useState } from 'react';
 import API from 'components/GetApi/GetApi';
 import { useParams } from 'react-router-dom';
+import Loader from 'components/Loader/Loader';
 
 const Cast = () => {
   const [cast, setCast] = useState([]);
+  const [loading, setLoading] = useState(false);
   const { movieId } = useParams();
   useEffect(() => {
-    API.getMoviesCast(movieId).then(info => setCast(info.data.cast));
+    setLoading(true);
+    API.getMoviesCast(movieId).then(info => {
+      setCast(info.data.cast);
+      setLoading(false);
+    });
   }, [movieId]);
   return (
     <>
+      {loading && <Loader />}
       {cast.length > 0 && (
         <ul>
           {cast.map(elem => {
