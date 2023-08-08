@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import API from 'components/GetApi/GetApi';
 import { useEffect, useState } from 'react';
 import Loader from 'components/Loader/Loader';
+import css from './Reviews.module.css';
 
 const Review = () => {
   const [reviews, setReviews] = useState([]);
@@ -18,13 +19,13 @@ const Review = () => {
     <>
       {loading && <Loader />}
       {reviews.length > 0 && (
-        <ul>
+        <ul className={css.reviewsLists}>
           {reviews.map(elem => {
             return (
               <li key={elem.id}>
                 <h3>
-                  <span>Author: </span>
-                  {elem.author}
+                  <span>#</span>
+                  {elem.author}:
                 </h3>
                 <p>{elem.content}</p>
               </li>

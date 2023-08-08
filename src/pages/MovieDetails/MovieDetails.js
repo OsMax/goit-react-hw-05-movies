@@ -1,14 +1,15 @@
 import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import API from 'components/GetApi/GetApi';
 import Loader from 'components/Loader/Loader';
+import css from './MovieDetails.module.css';
 
 const MoviesDetails = () => {
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(false);
   const { movieId } = useParams();
   const location = useLocation();
-  console.log(location);
+
   useEffect(() => {
     setLoading(true);
     API.getMoviesDetail(movieId).then(result => {
@@ -16,41 +17,67 @@ const MoviesDetails = () => {
       setLoading(false);
     });
   }, [movieId]);
-
   return (
     <>
-      <Link to={location.state?.from ?? '/movies'}> Go back</Link>
+      <Link to={location.state?.from ?? '/movies'} className={css.back}>
+        ⇦ Go back
+      </Link>
       {loading && <Loader />}
       {movie && (
-        <div>
-          <h2>{`${movie.title} (${new Date(
-            movie.release_date
-          ).getFullYear()})`}</h2>
-          <img
-            src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}`}
-            alt={movie.title}
-          />
-          <p>User score: {`${Math.round(movie.vote_average * 10)}%`}</p>
-          <div>
-            <h3>Overview:</h3>
-            <p>{movie.overview}</p>
+        <div className={css.container}>
+          <div className={css.info}>
+            <div className={css.imgCont}>
+              <img
+                className={css.imgInfo}
+                src={
+                  movie.poster_path
+                    ? `https://image.tmdb.org/t/p/w400/${movie.poster_path}`
+                    : require('../../images/no-img.jpg')
+                }
+                alt={movie.title}
+              />
+            </div>
+            <div className={css.infoCont}>
+              <h2 className={css.detailsTitle}>{`${movie.title} (${
+                movie.release_date
+                  ? new Date(movie.release_date).getFullYear()
+                  : 'No date'
+              })`}</h2>
+              <p className={css.inf}>
+                <span>User score:</span>{' '}
+                {`${Math.round(movie.vote_average * 10)}%`}
+              </p>
+              <p className={css.inf}>
+                <span>Overview: </span>
+                {movie.overview}
+              </p>
+              <p className={css.inf}>
+                <span>Genres: </span>
+                {movie.genres
+                  ?.map(genre => {
+                    return '#' + genre.name;
+                  })
+                  .join('   ')}
+              </p>
+            </div>
           </div>
-          <div>
-            {' '}
-            <h3>Genres:</h3>
-            <p>{movie.genres?.map(genre => genre.name).join(' ')}</p>
-          </div>
+          <ul className={css.moreInfoLinks}>
+            <li>
+              <Link to="cast" state={location.state}>
+                Cast
+              </Link>
+            </li>
+            <li>
+              <Link to="review" state={location.state}>
+                Review
+              </Link>
+            </li>
+          </ul>
+          <Suspense fallback={<Loader />}>
+            <Outlet />
+          </Suspense>
         </div>
       )}
-      <ul>
-        <li>
-          <Link to="cast">Cast</Link>
-        </li>
-        <li>
-          <Link to="review">Review</Link>
-        </li>
-      </ul>
-      <Outlet />
     </>
   );
 };

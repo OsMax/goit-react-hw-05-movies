@@ -8,7 +8,6 @@ const MoviesList = ({ children, movies }) => {
       {children}
       <ul className={css.lists}>
         {movies.map(movie => {
-          console.log(movie.poster_path);
           return (
             <li key={movie.id} className={css.list}>
               <Link
@@ -21,13 +20,15 @@ const MoviesList = ({ children, movies }) => {
                   src={
                     movie.poster_path
                       ? `https://image.tmdb.org/t/p/w300/${movie.poster_path}`
-                      : `../../images/no-image-icon-32.png`
+                      : require('../../images/no-img.jpg')
                   }
                   alt={movie.title}
                 />
                 <div className={css.titleCont}>
                   <h3>{movie.title}</h3>
-                  <h3>{`(${new Date(movie.release_date).getFullYear()})`}</h3>
+                  {movie.release_date && (
+                    <h3>{`(${new Date(movie.release_date).getFullYear()})`}</h3>
+                  )}
                 </div>
               </Link>
             </li>
