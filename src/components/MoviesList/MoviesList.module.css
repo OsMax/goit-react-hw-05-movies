@@ -48,11 +48,13 @@
   height: 300px;
 }
 .titleCont {
+  height: 100%;
   padding: 10px 10px;
   text-align: center;
   display: flex;
   flex-direction: column;
   gap: 4px;
+  background-color: #f5ffaa;
 }
 
 .titleCont h3 {
