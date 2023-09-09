@@ -40,7 +40,7 @@ const Cast = () => {
           })}
         </ul>
       )}
-      {cast.length === 0 && <h3>There are no cast!!!</h3>}
+      {!loading && cast.length === 0 && <h3>There are no cast!!!</h3>}
     </>
   );
 };

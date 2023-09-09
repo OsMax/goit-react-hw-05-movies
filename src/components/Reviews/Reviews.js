@@ -33,7 +33,7 @@ const Review = () => {
           })}
         </ul>
       )}
-      {reviews.length === 0 && <h3>There are no reviews!!!</h3>}
+      {!loading && reviews.length === 0 && <h3>There are no reviews!!!</h3>}
     </>
   );
 };
